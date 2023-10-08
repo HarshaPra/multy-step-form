@@ -24,16 +24,28 @@ function App() {
   const [data, setData] = useState(INITIAL_DATA);
 
   const updateField = (field: Partial<FormData>) => {
-    console.log(field);
     setData((pre) => {
-      return {...pre, ...field}
+      return { ...pre, ...field }
     })
-    
   }
-  console.log(data);
+  const handleSave = () => {
+    console.log(data);
+  }
+    
   
 
+
+
   const { steps, currentStepIndex, step, fristStep, back, next, lastStep } = useMultyStepForm([<Names {...data} updateField={updateField} />, <Contact {...data} updateField={updateField} />])
+
+  const submitForm = () => {
+
+    if (!lastStep) return next();
+    if (lastStep) {
+      return alert('Form submited');
+    }
+
+  }
 
   return (
     <>
@@ -48,7 +60,7 @@ function App() {
         fontFamily: 'arial',
       }}>
         <div style={{ position: 'absolute', top: '1rem' }}>
-          <button>save & exit</button>
+          <button onClick={handleSave}>save & exit</button>
         </div>
         <form>
           <div style={{
@@ -66,7 +78,7 @@ function App() {
             justifyContent: 'flex-end'
           }}>
             {!fristStep && (<button type="button" onClick={back}>back</button>)}
-            <button type="button" onClick={next}>{lastStep ? 'finish' : 'next'}</button>
+            <button type="button" onClick={submitForm}>{lastStep ? 'finish' : 'next'}</button>
           </div>
         </form>
       </div>
